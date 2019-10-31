@@ -1,0 +1,1 @@
+protoc greeter/greetpb/greet.proto --go_out=plugins=grpc:. 
