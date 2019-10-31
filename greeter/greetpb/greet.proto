@@ -3,4 +3,19 @@ syntax = "proto3";
 package greet;
 option go_package="greetpb";
 
-service greeter{}
+service greeter{
+    // Unary
+    rpc Greet(GreetRequest) returns (GreetResponse){};
+}
+
+message GreetRequest {
+    string firstName = 1;
+    string lastName = 2;
+}
+
+message GreetResponse {
+    string result = 1;
+}
+
+
+

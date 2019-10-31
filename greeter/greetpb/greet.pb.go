@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -22,15 +24,112 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type GreetRequest struct {
+	FirstName            string   `protobuf:"bytes,1,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName             string   `protobuf:"bytes,2,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GreetRequest) Reset()         { *m = GreetRequest{} }
+func (m *GreetRequest) String() string { return proto.CompactTextString(m) }
+func (*GreetRequest) ProtoMessage()    {}
+func (*GreetRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bd44c5ec7fcb3850, []int{0}
+}
+
+func (m *GreetRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GreetRequest.Unmarshal(m, b)
+}
+func (m *GreetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GreetRequest.Marshal(b, m, deterministic)
+}
+func (m *GreetRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GreetRequest.Merge(m, src)
+}
+func (m *GreetRequest) XXX_Size() int {
+	return xxx_messageInfo_GreetRequest.Size(m)
+}
+func (m *GreetRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GreetRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GreetRequest proto.InternalMessageInfo
+
+func (m *GreetRequest) GetFirstName() string {
+	if m != nil {
+		return m.FirstName
+	}
+	return ""
+}
+
+func (m *GreetRequest) GetLastName() string {
+	if m != nil {
+		return m.LastName
+	}
+	return ""
+}
+
+type GreetResponse struct {
+	Result               string   `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GreetResponse) Reset()         { *m = GreetResponse{} }
+func (m *GreetResponse) String() string { return proto.CompactTextString(m) }
+func (*GreetResponse) ProtoMessage()    {}
+func (*GreetResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bd44c5ec7fcb3850, []int{1}
+}
+
+func (m *GreetResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GreetResponse.Unmarshal(m, b)
+}
+func (m *GreetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GreetResponse.Marshal(b, m, deterministic)
+}
+func (m *GreetResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GreetResponse.Merge(m, src)
+}
+func (m *GreetResponse) XXX_Size() int {
+	return xxx_messageInfo_GreetResponse.Size(m)
+}
+func (m *GreetResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GreetResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GreetResponse proto.InternalMessageInfo
+
+func (m *GreetResponse) GetResult() string {
+	if m != nil {
+		return m.Result
+	}
+	return ""
+}
+
+func init() {
+	proto.RegisterType((*GreetRequest)(nil), "greet.GreetRequest")
+	proto.RegisterType((*GreetResponse)(nil), "greet.GreetResponse")
+}
+
 func init() { proto.RegisterFile("greeter/greetpb/greet.proto", fileDescriptor_bd44c5ec7fcb3850) }
 
 var fileDescriptor_bd44c5ec7fcb3850 = []byte{
-	// 66 bytes of a gzipped FileDescriptorProto
+	// 163 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4e, 0x2f, 0x4a, 0x4d,
 	0x2d, 0x49, 0x2d, 0xd2, 0x07, 0xd3, 0x05, 0x49, 0x10, 0x5a, 0xaf, 0xa0, 0x28, 0xbf, 0x24, 0x5f,
-	0x88, 0x15, 0xcc, 0x31, 0xe2, 0xe4, 0x62, 0x87, 0xaa, 0x72, 0xe2, 0x8c, 0x62, 0x87, 0x2a, 0x4c,
-	0x62, 0x03, 0xab, 0x31, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x60, 0x01, 0xbb, 0x18, 0x42, 0x00,
-	0x00, 0x00,
+	0x88, 0x15, 0xcc, 0x51, 0xf2, 0xe0, 0xe2, 0x71, 0x07, 0x31, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b,
+	0x4b, 0x84, 0x64, 0xb8, 0x38, 0xd3, 0x32, 0x8b, 0x8a, 0x4b, 0xfc, 0x12, 0x73, 0x53, 0x25, 0x18,
+	0x15, 0x18, 0x35, 0x38, 0x83, 0x10, 0x02, 0x42, 0x52, 0x5c, 0x1c, 0x39, 0x89, 0x50, 0x49, 0x26,
+	0xb0, 0x24, 0x9c, 0xaf, 0xa4, 0xce, 0xc5, 0x0b, 0x35, 0xa9, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0x55,
+	0x48, 0x8c, 0x8b, 0xad, 0x28, 0xb5, 0xb8, 0x34, 0xa7, 0x04, 0x6a, 0x0e, 0x94, 0x67, 0x64, 0xcf,
+	0xc5, 0x0e, 0x75, 0x98, 0x90, 0x09, 0x17, 0x2b, 0x58, 0x8f, 0x90, 0xb0, 0x1e, 0xc4, 0x6d, 0xc8,
+	0x6e, 0x91, 0x12, 0x41, 0x15, 0x84, 0x18, 0xab, 0xc4, 0xe0, 0xc4, 0x19, 0xc5, 0x0e, 0xf5, 0x51,
+	0x12, 0x1b, 0xd8, 0x33, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x53, 0x9d, 0xee, 0xe9, 0xeb,
+	0x00, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -45,6 +144,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type GreeterClient interface {
+	// Unary
+	Greet(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error)
 }
 
 type greeterClient struct {
@@ -55,22 +156,60 @@ func NewGreeterClient(cc *grpc.ClientConn) GreeterClient {
 	return &greeterClient{cc}
 }
 
+func (c *greeterClient) Greet(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error) {
+	out := new(GreetResponse)
+	err := c.cc.Invoke(ctx, "/greet.greeter/Greet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 type GreeterServer interface {
+	// Unary
+	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
 }
 
 // UnimplementedGreeterServer can be embedded to have forward compatible implementations.
 type UnimplementedGreeterServer struct {
 }
 
+func (*UnimplementedGreeterServer) Greet(ctx context.Context, req *GreetRequest) (*GreetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Greet not implemented")
+}
+
 func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
 	s.RegisterService(&_Greeter_serviceDesc, srv)
+}
+
+func _Greeter_Greet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GreetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).Greet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/greet.greeter/Greet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).Greet(ctx, req.(*GreetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Greeter_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "greet.greeter",
 	HandlerType: (*GreeterServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "greeter/greetpb/greet.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Greet",
+			Handler:    _Greeter_Greet_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "greeter/greetpb/greet.proto",
 }
