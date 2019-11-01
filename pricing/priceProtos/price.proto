@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package price;
+option go_package="priceProtos";
+
+service pricer{
+     rpc GetPrice(PriceRequest) returns (PriceResponse){};
+}
+
+message PriceRequest{
+    int32 priceItemA = 1;
+    int32 priceItemB = 2;
+}
+
+message PriceResponse{
+    int32 totalPrice = 1;
+}

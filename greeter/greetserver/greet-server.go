@@ -14,16 +14,15 @@ type server struct {
 }
 
 func (*server) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.GreetResponse, error) {
+	fmt.Printf("Greet function was envoked with %v \n", req)
+
 	firstName := req.GetFirstName()
 	result := "Hello " + firstName
-	res
-	return 
+	res := greetpb.GreetResponse{
+		Result: result,
+	}
+	return &res, nil
 }
-
-Result               string   `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-XXX_NoUnkeyedLiteral struct{} `json:"-"`
-XXX_unrecognized     []byte   `json:"-"`
-XXX_sizecache        int32    `json:"-"`
 
 func main() {
 	fmt.Println("starting server")
@@ -33,10 +32,10 @@ func main() {
 		log.Fatalf("Failed to listen: %v\n", err)
 	}
 
-	s := grpc.NewServer()
-	greetpb.RegisterGreeterServer(s, &server{})
+	sInstance := grpc.NewServer()
+	greetpb.RegisterGreeterServer(sInstance, &server{})
 
-	if err := s.Serve(lis); err != nil {
+	if err := sInstance.Serve(lis); err != nil {
 		log.Fatalf("failed to serve %v", err)
 	}
 }
