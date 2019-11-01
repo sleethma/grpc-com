@@ -6,14 +6,16 @@ import (
 	"grpc-proto/greeter/greetpb"
 	"log"
 	"net"
+	"strconv"
+	"time"
 
 	"google.golang.org/grpc"
 )
 
-type server struct {
+type servers struct {
 }
 
-func (*server) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.GreetResponse, error) {
+func (*servers) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.GreetResponse, error) {
 	fmt.Printf("Greet function was envoked with %v \n", req)
 
 	firstName := req.GetFirstName()
@@ -22,6 +24,21 @@ func (*server) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.G
 		Result: result,
 	}
 	return &res, nil
+}
+
+func (*servers) GreetServerStream(req *greetpb.GreetManyTimesRequest, stream greetpb.Greeter_GreetServerStreamServer) error {
+	fmt.Printf("GreetServerStream function was envoked with %v \n", req)
+
+	firstNames := req.GetFirstNames()
+	for i := 0; i < 10; i++ {
+		result := "Hello " + firstNames + " " + strconv.Itoa(i) + " \n"
+		res := &greetpb.GreetManyTimesResponse{
+			Result: result,
+		}
+		stream.Send(res)
+		time.Sleep(1000 * time.Millisecond)
+	}
+	return nil
 }
 
 func main() {
@@ -33,7 +50,7 @@ func main() {
 	}
 
 	sInstance := grpc.NewServer()
-	greetpb.RegisterGreeterServer(sInstance, &server{})
+	greetpb.RegisterGreeterServer(sInstance, &servers{})
 
 	if err := sInstance.Serve(lis); err != nil {
 		log.Fatalf("failed to serve %v", err)

@@ -6,6 +6,8 @@ option go_package="greetpb";
 service greeter{
     // Unary
     rpc Greet(GreetRequest) returns (GreetResponse){};
+
+    rpc GreetServerStream(GreetManyTimesRequest) returns (stream GreetManyTimesResponse){};
 }
 
 message GreetRequest {
@@ -14,6 +16,15 @@ message GreetRequest {
 }
 
 message GreetResponse {
+    string result = 1;
+}
+
+message GreetManyTimesRequest{
+    string firstNames = 1;
+    string lastNames = 2;
+}
+
+message GreetManyTimesResponse{
     string result = 1;
 }
 
