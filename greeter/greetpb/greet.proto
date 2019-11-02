@@ -8,6 +8,17 @@ service greeter{
     rpc Greet(GreetRequest) returns (GreetResponse){};
 
     rpc GreetServerStream(GreetManyTimesRequest) returns (stream GreetManyTimesResponse){};
+
+    rpc GreetClientStream(stream LongGreetRequest) returns (LongGreetResponse){}
+}
+
+message LongGreetRequest{
+    string messageLong = 1;
+}
+
+
+message LongGreetResponse{
+    string result = 1;
 }
 
 message GreetRequest {

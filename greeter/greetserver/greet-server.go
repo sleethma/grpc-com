@@ -3,16 +3,37 @@ package main
 import (
 	"context"
 	"fmt"
-	"grpc-proto/greeter/greetpb"
+	"grpc-com/greeter/greetpb"
 	"log"
 	"net"
 	"strconv"
 	"time"
-
+	"io"
 	"google.golang.org/grpc"
 )
 
 type servers struct {
+}
+
+func (*servers) GreetClientStream(s greetpb.Greeter_GreetClientStreamServer) error{
+
+	fmt.Println("LongGreet Invoked")
+	result := "Hello "
+	count := 0
+	 
+	for{
+		req, err := s.Recv()
+		count++
+		if err == io.EOF{
+			return s.SendAndClose(&greetpb.LongGreetResponse{
+				Result: result,
+			})
+		}else if err != nil{
+			log.Fatalf("error recieving client stream: %v \n", err)
+		}
+		
+		result += "Hello " + req.GetMessageLong() + " " + strconv.Itoa(count) + " \n"
+	}
 }
 
 func (*servers) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.GreetResponse, error) {
